@@ -1,5 +1,6 @@
 class RecipesController < ApplicationController
-	before_action :find_recipe, only: [:show, :edit, :update, :destroy]
+	before_action :find_recipe, only: [:show, :edit, :update, :destroy, :upvote]
+	before_action :authenticate_user!, except: [:index, :show]
 	def index
 		@recipes=Recipe.all.order("created_at DESC")
 	end
@@ -37,6 +38,12 @@ class RecipesController < ApplicationController
 		redirect_to root_path
 	end
 
+	def upvote
+		@recipe.upvote_by current_user
+		redirect_to :bacck
+		
+	end
+
 	private
 
 	def recipe_params
@@ -44,11 +51,6 @@ class RecipesController < ApplicationController
 		
 	end
 
-	def edit
-		
-	end
-	
-	private
 	def find_recipe
 		@recipe =Recipe.find(params[:id])
 		

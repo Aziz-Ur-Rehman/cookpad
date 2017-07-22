@@ -1,9 +1,22 @@
-= image_tag @recipe.image.url(:medium)
-%h1= @recipe.title
-%p= @recipe.description
-%p Submitted by
-= @recipe.user.email
-%br
-=link_to "Back", root_path
-=link_to "Edit", edit_recipe_path
-=link_to "Delete", recipe_path, method: :delete, data: {confirm: "Are you sure?"}
+#recipe_show.row
+	.col-md-8.col-md-offset-2
+		.panel.panel-default
+			.panel-heading.recipe_image
+				= image_tag @recipe.image.url
+			.panel-body
+				%h1= @recipe.title
+				%p.description= @recipe.description
+			.panel-footer
+				.row
+					.col-md-6
+						%p.user
+							Submitted by
+							= @recipe.user.email
+					.col-md-6
+						.btn-group.pull-right
+							=link_to like_recipe_path(@recipe), method: :put, class: "btn btn-default" do
+								%span.glyphicon.glyphicon-heart
+								= @recipe.get_upvotes.size
+							- if user_signed_in?
+								=link_to "Edit", edit_recipe_path, class: "btn btn-default"
+								=link_to "Delete", recipe_path, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-default"

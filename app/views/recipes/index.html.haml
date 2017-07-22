@@ -1,4 +1,9 @@
-
-- @recipes.each do|recipe|
-  = link_to (image_tag recipe.image.url(:medium)), recipe
-  %h2= link_to recipe.title, recipe
+#recipes.transitions-enabled
+	- @recipes.each do|recipe|
+		.box.panel.panel_default
+			= link_to (image_tag recipe.image.url(:medium)), recipe
+			.panel-body
+				%h2= link_to recipe.title, recipe
+				%p.user
+				Submitted by
+				= recipe.user.email
